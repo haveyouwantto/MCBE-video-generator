@@ -1,11 +1,11 @@
-#Minecraft Video Generator by HYWT
+# Minecraft Video Generator by HYWT
 
 
 >MY CODE IS BAD, I KNOW. IT WORKS. MAKE IT BETTER FOR ME IF YOU WANT!
 
 ---
 
-###Requirements:
+### Requirements:
 
 * `ffmpeg` , [download link here](https://ffmpeg.org/)
 
@@ -13,7 +13,7 @@
 
 
 
-###How to generate a video:
+### How to generate a video:
 
 * 1.You'll need to install `ffmpeg`
 
