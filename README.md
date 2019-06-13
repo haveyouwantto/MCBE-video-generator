@@ -45,6 +45,6 @@
 
 * 11.Run chat command 
 
- `/function <Your package ID>/init`
+  `/function <Your package ID>/init`
 
 * 12.Enjoy!
