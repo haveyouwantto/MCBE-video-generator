@@ -3,6 +3,8 @@ package hywt.mc.videogen;
 import java.util.UUID;
 
 public class Template {
+	
+	//Resource pack manifest.json
     public static String resmanifest(String description) {
         return "{\r\n" + 
 			"	\"format_version\": 1,\r\n" + 
@@ -22,6 +24,7 @@ public class Template {
 			"}";  
 	}
     
+    //Behavior pack manifest.json
     public static String datmanifest(String description) {
     	return "{\r\n" + 
 		"    \"format_version\": 1,\r\n" + 
@@ -43,6 +46,7 @@ public class Template {
 		"}";
     }
     
+    //Particle jsons
     public static String framejson(String framename,double width,double height,boolean mode,int[] facing) {
     	String facingMode;
     	if(mode) {
@@ -94,30 +98,43 @@ public class Template {
     			"  }\r\n" + 
     			"}";
     }
+    
+    //Particle command
     public static String cmd(int framenum, String framename,String x,String y,String z) {
-		return "execute @s[scores={"+Main.pname+"-tick="+framenum+"}] ~ ~ ~ particle minecraft:"+Main.pname+"-"+framename+" "+x+" "+y+" "+z+"\n";
+		return "execute @a[scores={"+Main.pname+"-tick="+framenum+"},tag="+Main.pname+"] ~ ~ ~ particle minecraft:"+Main.pname+"-"+framename+" "+x+" "+y+" "+z+"\n";
     	
     }
+    
+    //Indexes in tick.mcfunction
     public static String indexcmd(int framenum) {
-		return "execute @s[scores={"+Main.pname+"-tick="+(framenum/1000)*1000+".."+(framenum/1000+1)*1000+"}] ~ ~ ~ function "+Main.pname+"/frames/frame"+framenum/1000+"k\n";
+		return "execute @a[scores={"+Main.pname+"-tick="+(framenum/1000)*1000+".."+(framenum/1000+1)*1000+"},tag="+Main.pname+"] ~ ~ ~ function "+Main.pname+"/frames/frame"+framenum/1000+"k\n";
     	
     }
-public static String initcmd() {
-	return "scoreboard objectives add "+Main.pname+"-tick dummy\n"+
-           "scoreboard players set @s "+Main.pname+"-tick 0"
+    
+    //init.mcfunction
+    public static String initcmd() {
+	return 	"scoreboard objectives add "+Main.pname+"-tick dummy\n"+
+			"tag @s add "+Main.pname+"\n"+
+			"scoreboard players set @s "+Main.pname+"-tick 0"
 			;
 }
+    //stop.mcfunction
 public static String stopcmd() {
 	return "stopsound @s\n"+
-	       "scoreboard players set @s "+Main.pname+"-tick 0";
+	       "scoreboard players set @s "+Main.pname+"-tick 0\n"+
+			"tag @s remove "+Main.pname;
 }
+
+	//help.mcfunction
 public static String helpcmd() {
-return "tellraw @s {\"rawtext\":[{\"text\":\"/function "+Main.pname+"init - Initialize video\\n"
-		+ "/function "+Main.pname+"-tick - Next frame (runs in repeating command block)\\n"
-		+ "/function "+Main.pname+"-stop - Stop playback\"}]}"
+return "tellraw @s {\"rawtext\":[{\"text\":\"/function "+Main.pname+"/play - Play video\\n"
+		+ "/function "+Main.pname+"/tick - Next frame (runs in repeating command block)\\n"
+		+ "/function "+Main.pname+"/stop - Stop playback\"}]}"
 			;
 }
+
     
+	//sound_definitions.json
     public static String soundjson() {
 return "{\r\n" + 
 		"  \"video."+Main.pname+"\": {\r\n" + 
@@ -132,53 +149,4 @@ return "{\r\n" +
 		"    ]\r\n" + 
 		"  }}";
     }
-
-protected static String myCinemaFramejson(String framename) {
-	return "{\r\n" + 
-			"  \"format_version\": \"1.10.0\",\r\n" + 
-			"  \"particle_effect\": {\r\n" + 
-			"    \"description\": {\r\n" + 
-			"      \"identifier\": \"minecraft:"+Main.pname+"-"+framename+"\",\r\n" + 
-			"      \"basic_render_parameters\": {\r\n" + 
-			"        \"material\": \"particles_alpha\",\r\n" + 
-			"        \"texture\": \"textures/"+Main.pname+"-frames/"+framename+"\"\r\n" + 
-			"      }\r\n" + 
-			"    },\r\n" + 
-			"    \"components\": {\r\n" + 
-			"      \"minecraft:emitter_rate_instant\": {\r\n" + 
-			"        \"num_particles\": 1\r\n" + 
-			"      },\r\n" + 
-			"      \"minecraft:emitter_lifetime_once\": {\r\n" + 
-			"        \"active_time\": 0.05\r\n" + 
-			"      },\r\n" + 
-			"      \"minecraft:emitter_shape_point\": {\r\n" + 
-			"        \"offset\": [\r\n" + 
-			"          0,\r\n" + 
-			"          0,\r\n" + 
-			"          0\r\n" + 
-			"        ],\r\n" + 
-			"        \"direction\": [\r\n" + 
-			"          0,\r\n" + 
-			"          0,\r\n" + 
-			"          -1\r\n" + 
-			"        ]\r\n" + 
-			"      },\r\n" + 
-			"      \"minecraft:particle_lifetime_expression\": {\r\n" + 
-			"        \"max_lifetime\": 0.12\r\n" + 
-			"      },\r\n" + 
-			"      \"minecraft:particle_appearance_billboard\": {\r\n" + 
-			"        \"size\": [\r\n" + 
-			"          5.5,\r\n" + 
-			"          3.09375\r\n" + 
-			"        ],\r\n" + 
-			"        \"facing_camera_mode\": \"direction_z\"\r\n" + 
-			"      }\r\n" + 
-			"    }\r\n" + 
-			"  }\r\n" + 
-			"}";
-     }
-protected static String myCinemaCmd(int framenum, String framename) {
-	return "execute @s[scores={"+Main.pname+"-tick="+framenum+"}] ~ ~ ~ particle minecraft:"+Main.pname+"-"+framename+" ~ ~-0.5 ~16.4\n";
-	
-     }
 }

@@ -106,9 +106,9 @@ public class Main {
     	 * Initialize functions
     	 */
     	File fxf=new File(fx.getAbsolutePath()+"/tick.mcfunction");
-    	File fxinit=new File(fx.getAbsolutePath()+"/init.mcfunction");
+    	File fxinit=new File(fx.getAbsolutePath()+"/play.mcfunction");
     	File fxstop=new File(fx.getAbsolutePath()+"/stop.mcfunction");
-    	File fxhelp=new File(fx.getAbsolutePath()+"/stop.mcfunction");
+    	File fxhelp=new File(fx.getAbsolutePath()+"/help.mcfunction");
     	FileOperation.writeFile(fxinit, Template.initcmd());
     	FileOperation.writeFile(fxstop, Template.stopcmd());
     	FileOperation.writeFile(fxhelp, Template.helpcmd());
@@ -131,7 +131,7 @@ public class Main {
     		Files.copy(images[100].toPath(), new File(resdestdir.getAbsolutePath()+"/pack_icon.png").toPath(),REPLACE_EXISTING);
     		Files.copy(images[100].toPath(), new File(datdestdir.getAbsolutePath()+"/pack_icon.png").toPath(),REPLACE_EXISTING);
     	}
-    	bw.write("execute @s[scores={"+pname+"-tick=1}] ~ ~ ~ playsound video."+pname+" @a\n");
+    	bw.write("execute @a[scores={"+pname+"-tick=1},tag="+pname+"] ~ ~ ~ playsound video."+pname+" @s\n");
     	
     	/*
     	 * Detect facing mode
@@ -215,7 +215,7 @@ public class Main {
     	 * Finalization
     	 */
     	Window.setProgress(images.length,images.length);
-    	bw.write("scoreboard players add @s[scores={"+pname+"-tick=0.."+images.length+"}] "+pname+"-tick 1\n");
+    	bw.write("scoreboard players add @s[scores={"+pname+"-tick=0.."+images.length+"},tag="+pname+"] "+pname+"-tick 1\n");
     	bw.close();
     	Window.showMessage(Str.DONE_GEN.getStr());
     	Window.setEnable();
@@ -234,7 +234,7 @@ public class Main {
     
     public static String readableFileSize(long size) {
         if(size <= 0) return "0";
-        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
+        final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
