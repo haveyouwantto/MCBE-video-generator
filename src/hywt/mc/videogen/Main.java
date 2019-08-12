@@ -19,11 +19,7 @@ public class Main {
 	}
 	*/
 	
-	public static String pname=Str.PACKAGE_ID.getStr();
-	public static String pdescription=Str.PACKAGE_DESCRIPTION.getStr();
-	
-	
-    public static void loadFolder(File dir) {
+	public static void loadFolder(File dir) {
     	
     	File[] images=dir.listFiles();
     	boolean hasPng=false;
@@ -52,14 +48,14 @@ public class Main {
     }
     
     public static void genPack(File sourcedir,File destdir) throws IOException {
-    	if(pname.length()>11) {
+    	if(Project.pname.length()>11) {
     		throw new Error(Str.ID_TOO_LONG.getStr());
     	}
     	
-    	File resdestdir=new File(destdir.getAbsolutePath()+"/"+pname+"-res");
+    	File resdestdir=new File(destdir.getAbsolutePath()+"/"+Project.pname+"-res");
     	resdestdir.mkdirs();
     	
-    	File datdestdir=new File(destdir.getAbsolutePath()+"/"+pname+"-dat");
+    	File datdestdir=new File(destdir.getAbsolutePath()+"/"+Project.pname+"-dat");
     	datdestdir.mkdirs();
     	
     	/*
@@ -68,30 +64,30 @@ public class Main {
     	File resmanifest=new File(resdestdir.getAbsolutePath()+"/manifest.json");
     	if(!resmanifest.exists()) {
     		resmanifest.createNewFile();
-    		FileOperation.writeFile(resmanifest, Template.resmanifest(pdescription));
+    		FileOperation.writeFile(resmanifest, Template.resmanifest(Project.pdescription));
     	}
     	
     	File datmanifest=new File(datdestdir.getAbsolutePath()+"/manifest.json");
     	if(!datmanifest.exists()) {
     		datmanifest.createNewFile();
-    		FileOperation.writeFile(datmanifest, Template.datmanifest(pdescription));
+    		FileOperation.writeFile(datmanifest, Template.datmanifest(Project.pdescription));
     	}
     	
     	
     	/*
     	 * Create resources
     	 */
-    	File particles=new File(resdestdir.getAbsolutePath()+"/particles/"+pname+"-frames");
+    	File particles=new File(resdestdir.getAbsolutePath()+"/particles/"+Project.pname+"-frames");
     	particles.mkdirs();
-    	File videoframe=new File(resdestdir.getAbsolutePath()+"/textures/"+pname+"-frames");
+    	File videoframe=new File(resdestdir.getAbsolutePath()+"/textures/"+Project.pname+"-frames");
     	videoframe.mkdirs();
-    	File audio=new File(resdestdir.getAbsolutePath()+"/sounds/audio/"+pname);
+    	File audio=new File(resdestdir.getAbsolutePath()+"/sounds/audio/"+Project.pname);
     	audio.mkdirs();
     	
     	/*
     	 * Create data
     	 */
-    	File fx=new File(datdestdir.getAbsolutePath()+"/functions/"+pname);
+    	File fx=new File(datdestdir.getAbsolutePath()+"/functions/"+Project.pname);
     	fx.mkdirs();
     	
     	
@@ -131,21 +127,13 @@ public class Main {
     		Files.copy(images[100].toPath(), new File(resdestdir.getAbsolutePath()+"/pack_icon.png").toPath(),REPLACE_EXISTING);
     		Files.copy(images[100].toPath(), new File(datdestdir.getAbsolutePath()+"/pack_icon.png").toPath(),REPLACE_EXISTING);
     	}
-    	bw.write("execute @a[scores={"+pname+"-tick=1},tag="+pname+"] ~ ~ ~ playsound video."+pname+" @s\n");
+    	bw.write("execute @a[scores={"+Project.pname+"-tick=1},tag="+Project.pname+"] ~ ~ ~ playsound video."+Project.pname+" @s\n");
     	
     	/*
     	 * Detect facing mode
     	 */
-    	int[] facing;
-    	if(Window.getRdbtnPositiveX().isSelected()) {
-    		facing= RefStrings.positiveX;
-    	}else if(Window.getRdbtnNegativeX().isSelected()) {
-    		facing= RefStrings.negativeX;
-    	}else if(Window.getRdbtnPositiveZ().isSelected()) {
-    		facing= RefStrings.positiveZ;
-    	}else{
-    		facing= RefStrings.negativeZ;
-    	}
+    	int[] facing=Project.facing;
+    	
     	
     	File tick = null;
     	FileWriter functionw;
@@ -170,13 +158,13 @@ public class Main {
     			 * Generate particle JSON
     			 */
     			FileOperation.writeFile(
-    					new File(resdestdir.getAbsolutePath()+"/particles/"+pname+"-frames/"+f.getName()+".json"), 
+    					new File(resdestdir.getAbsolutePath()+"/particles/"+Project.pname+"-frames/"+f.getName()+".json"), 
     					Template.framejson(
     							f.getName(), 
-    							Double.parseDouble(Window.getSizeX().getText()),
-    							Double.parseDouble(Window.getSizeY().getText()), 
-    							Window.getRdbtnHoverAtTarget().isSelected(),
-    							facing
+    							Project.sizex,
+    							Project.sizey, 
+    							Project.mode,
+    							Project.facing
     							)
     					);
     			
@@ -192,9 +180,9 @@ public class Main {
     	        bfw.write(Template.cmd(
     	        		i,
     	        		f.getName(),
-    	        		Window.getTxtX().getText(),
-    	        		Window.getTxtY().getText(),
-    	        		Window.getTxtZ().getText()
+    	        		Project.txtx,
+    	        		Project.txty,
+    	        		Project.txtz
     	        		));
     	        
     	        //bfw.write(Template.myCinemaCmd(i, f.getName()));
@@ -215,7 +203,7 @@ public class Main {
     	 * Finalization
     	 */
     	Window.setProgress(images.length,images.length);
-    	bw.write("scoreboard players add @s[scores={"+pname+"-tick=0.."+images.length+"},tag="+pname+"] "+pname+"-tick 1\n");
+    	bw.write("scoreboard players add @s[scores={"+Project.pname+"-tick=0.."+images.length+"},tag="+Project.pname+"] "+Project.pname+"-tick 1\n");
     	bw.close();
     	Window.showMessage(Str.DONE_GEN.getStr());
     	Window.setEnable();

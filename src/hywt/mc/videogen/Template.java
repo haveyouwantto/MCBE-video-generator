@@ -10,13 +10,13 @@ public class Template {
 			"	\"format_version\": 1,\r\n" + 
 			"	\"header\": {\r\n" + 
 			"		\"description\": \""+description+"\",\r\n" + 
-			"		\"name\": \""+Main.pname+"-Resources\",\r\n" + 
+			"		\"name\": \""+Project.pname+"-Resources\",\r\n" + 
 			"		\"uuid\": \""+UUID.randomUUID()+"\",\r\n" + 
 			"		\"version\": [1, 0, 0],\r\n" + 
 			"		\"min_engine_version\": [1, 8, 0]\r\n" + 
 			"	},\r\n" + 
 			"	\"modules\": [{\r\n" + 
-			"		\"description\": \""+Main.pname+"\",\r\n" + 
+			"		\"description\": \""+Project.pname+"\",\r\n" + 
 			"		\"type\": \"resources\",\r\n" + 
 			"		\"uuid\": \""+UUID.randomUUID()+"\",\r\n" + 
 			"		\"version\": [1, 0, 0]\r\n" + 
@@ -30,14 +30,14 @@ public class Template {
 		"    \"format_version\": 1,\r\n" + 
 		"    \"header\": {\r\n" + 
 		"        \"description\": \""+description+"\",\r\n" + 
-		"        \"name\": \""+Main.pname+"-Data\",\r\n" + 
+		"        \"name\": \""+Project.pname+"-Data\",\r\n" + 
 		"        \"uuid\": \""+UUID.randomUUID()+"\",\r\n" + 
 		"        \"version\": [1, 0, 0],\r\n" + 
 		"        \"min_engine_version\": [1, 8, 0]\r\n" + 
 		"    },\r\n" + 
 		"    \"modules\": [\r\n" + 
 		"        {\r\n" + 
-		"            \"description\": \""+Main.pname+"\",\r\n" + 
+		"            \"description\": \""+Project.pname+"\",\r\n" + 
 		"            \"type\": \"data\",\r\n" + 
 		"            \"uuid\": \""+UUID.randomUUID()+"\",\r\n" + 
 		"            \"version\": [1, 0, 0]\r\n" + 
@@ -59,10 +59,10 @@ public class Template {
     			"  \"format_version\": \"1.10.0\",\r\n" + 
     			"  \"particle_effect\": {\r\n" + 
     			"    \"description\": {\r\n" + 
-    			"      \"identifier\": \"minecraft:"+Main.pname+"-"+framename+"\",\r\n" + 
+    			"      \"identifier\": \""+Project.pname+":"+framename+"\",\r\n" + 
     			"      \"basic_render_parameters\": {\r\n" + 
     			"        \"material\": \"particles_alpha\",\r\n" + 
-    			"        \"texture\": \"textures/"+Main.pname+"-frames/"+framename+"\"\r\n" + 
+    			"        \"texture\": \"textures/"+Project.pname+"-frames/"+framename+"\"\r\n" + 
     			"      }\r\n" + 
     			"    },\r\n" + 
     			"    \"components\": {\r\n" + 
@@ -101,35 +101,35 @@ public class Template {
     
     //Particle command
     public static String cmd(int framenum, String framename,String x,String y,String z) {
-		return "execute @a[scores={"+Main.pname+"-tick="+framenum+"},tag="+Main.pname+"] ~ ~ ~ particle minecraft:"+Main.pname+"-"+framename+" "+x+" "+y+" "+z+"\n";
+		return "execute @a[scores={"+Project.pname+"-tick="+framenum+"},tag="+Project.pname+"] ~ ~ ~ particle "+Project.pname+":"+framename+" "+x+" "+y+" "+z+"\n";
     	
     }
     
     //Indexes in tick.mcfunction
     public static String indexcmd(int framenum) {
-		return "execute @a[scores={"+Main.pname+"-tick="+(framenum/1000)*1000+".."+(framenum/1000+1)*1000+"},tag="+Main.pname+"] ~ ~ ~ function "+Main.pname+"/frames/frame"+framenum/1000+"k\n";
+		return "execute @a[scores={"+Project.pname+"-tick="+(framenum/1000)*1000+".."+(framenum/1000+1)*1000+"},tag="+Project.pname+"] ~ ~ ~ function "+Project.pname+"/frames/frame"+framenum/1000+"k\n";
     	
     }
     
     //init.mcfunction
     public static String initcmd() {
-	return 	"scoreboard objectives add "+Main.pname+"-tick dummy\n"+
-			"tag @s add "+Main.pname+"\n"+
-			"scoreboard players set @s "+Main.pname+"-tick 0"
+	return 	"scoreboard objectives add "+Project.pname+"-tick dummy\n"+
+			"tag @s add "+Project.pname+"\n"+
+			"scoreboard players set @s "+Project.pname+"-tick 0"
 			;
 }
     //stop.mcfunction
 public static String stopcmd() {
 	return "stopsound @s\n"+
-	       "scoreboard players set @s "+Main.pname+"-tick 0\n"+
-			"tag @s remove "+Main.pname;
+	       "scoreboard players set @s "+Project.pname+"-tick 0\n"+
+			"tag @s remove "+Project.pname;
 }
 
 	//help.mcfunction
 public static String helpcmd() {
-return "tellraw @s {\"rawtext\":[{\"text\":\"/function "+Main.pname+"/play - Play video\\n"
-		+ "/function "+Main.pname+"/tick - Next frame (runs in repeating command block)\\n"
-		+ "/function "+Main.pname+"/stop - Stop playback\"}]}"
+return "tellraw @s {\"rawtext\":[{\"text\":\"/function "+Project.pname+"/play - Play video\\n"
+		+ "/function "+Project.pname+"/tick - Next frame (runs in repeating command block)\\n"
+		+ "/function "+Project.pname+"/stop - Stop playback\"}]}"
 			;
 }
 
@@ -137,12 +137,12 @@ return "tellraw @s {\"rawtext\":[{\"text\":\"/function "+Main.pname+"/play - Pla
 	//sound_definitions.json
     public static String soundjson() {
 return "{\r\n" + 
-		"  \"video."+Main.pname+"\": {\r\n" + 
+		"  \"video."+Project.pname+"\": {\r\n" + 
 		"    \"category\": \"music\",\r\n" + 
 		"    \"max_distance\": 50.0,\r\n" + 
 		"    \"sounds\": [\r\n" + 
 		"      {\r\n" + 
-		"        \"name\": \"sounds/audio/"+Main.pname+"/audio\",\r\n" + 
+		"        \"name\": \"sounds/audio/"+Project.pname+"/audio\",\r\n" + 
 		"        \"stream\": true,\r\n" + 
 		"        \"load_on_low_memory\": true\r\n" + 
 		"      }\r\n" + 

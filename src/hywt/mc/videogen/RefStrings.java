@@ -46,7 +46,11 @@ public class RefStrings {
     	 POSITIVE_X("Positive X"),
     	 NEGATIVE_X("Negative X"),
     	 POSITIVE_Z("Positive Z"),
-    	 NEGATIVE_Z("Negative Z");
+    	 NEGATIVE_Z("Negative Z"),
+    	 
+    	 PROJECTS("Projects"),
+    	 SAVE_SETTINGS("Save Settings"),
+    	 LOAD_SETTINGS("Load Settings");
     	 
     	 private String str;
 

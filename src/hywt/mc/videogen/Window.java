@@ -40,7 +40,7 @@ public class Window {
 	static JButton genpack = new JButton(Str.GENERATE_PACK.getStr());
 	private JTextField srcpath;
 	private JTextField destpath;
-	private JTextField pnameField;
+	protected static JTextField pnameField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private static JTextField txtX;
 	private static JTextField txtY;
@@ -53,6 +53,7 @@ public class Window {
 	private static JRadioButton rdbtnNegativeX;
 	private static JRadioButton rdbtnNegativeZ;
 	private static JRadioButton rdbtnPositiveX;
+	protected static JEditorPane dtrpnPackagedescription;
 
 	/**
 	 * Launch the application.
@@ -118,9 +119,9 @@ public class Window {
 		scrollPane.setViewportView(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{126, 261, 0};
-		gbl_panel.rowHeights = new int[]{36, 101, 29, 34, 0, 0, 53, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowHeights = new int[]{36, 101, 29, 0, 34, 0, 0, 53, 0, 31, 28, 0};
+		gbl_panel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblPackageId = new JLabel(Str.PACKAGE_ID_LABEL.getStr());
@@ -151,7 +152,7 @@ public class Window {
 		gbc_lblPackageDescription.gridy = 1;
 		panel.add(lblPackageDescription, gbc_lblPackageDescription);
 		
-		JEditorPane dtrpnPackagedescription = new JEditorPane();
+		dtrpnPackagedescription = new JEditorPane();
 		GridBagConstraints gbc_dtrpnPackagedescription = new GridBagConstraints();
 		gbc_dtrpnPackagedescription.fill = GridBagConstraints.BOTH;
 		gbc_dtrpnPackagedescription.insets = new Insets(0, 0, 5, 0);
@@ -189,7 +190,7 @@ public class Window {
 		GridBagConstraints gbc_lblCoordinates = new GridBagConstraints();
 		gbc_lblCoordinates.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCoordinates.gridx = 0;
-		gbc_lblCoordinates.gridy = 3;
+		gbc_lblCoordinates.gridy = 4;
 		panel.add(lblCoordinates, gbc_lblCoordinates);
 		
 		JPanel coordinates = new JPanel();
@@ -197,7 +198,7 @@ public class Window {
 		gbc_coordinates.insets = new Insets(0, 0, 5, 0);
 		gbc_coordinates.fill = GridBagConstraints.VERTICAL;
 		gbc_coordinates.gridx = 1;
-		gbc_coordinates.gridy = 3;
+		gbc_coordinates.gridy = 4;
 		panel.add(coordinates, gbc_coordinates);
 		coordinates.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -220,7 +221,7 @@ public class Window {
 		GridBagConstraints gbc_lblScreenSize = new GridBagConstraints();
 		gbc_lblScreenSize.insets = new Insets(0, 0, 5, 5);
 		gbc_lblScreenSize.gridx = 0;
-		gbc_lblScreenSize.gridy = 4;
+		gbc_lblScreenSize.gridy = 5;
 		panel.add(lblScreenSize, gbc_lblScreenSize);
 		
 		JPanel screensize = new JPanel();
@@ -228,7 +229,7 @@ public class Window {
 		gbc_screensize.insets = new Insets(0, 0, 5, 0);
 		gbc_screensize.fill = GridBagConstraints.BOTH;
 		gbc_screensize.gridx = 1;
-		gbc_screensize.gridy = 4;
+		gbc_screensize.gridy = 5;
 		panel.add(screensize, gbc_screensize);
 		
 		sizeX = new JTextField();
@@ -247,24 +248,17 @@ public class Window {
 		JLabel staticmode = new JLabel(Str.STATIC_MODE_ONLY.getStr());
 		GridBagConstraints gbc_staticmode = new GridBagConstraints();
 		gbc_staticmode.gridwidth = 2;
-		gbc_staticmode.insets = new Insets(0, 0, 5, 5);
+		gbc_staticmode.insets = new Insets(0, 0, 5, 0);
 		gbc_staticmode.gridx = 0;
-		gbc_staticmode.gridy = 5;
+		gbc_staticmode.gridy = 6;
 		panel.add(staticmode, gbc_staticmode);
-		
-		JLabel lblFacingMode = new JLabel(Str.FACING_MODE.getStr());
-		GridBagConstraints gbc_lblFacingMode = new GridBagConstraints();
-		gbc_lblFacingMode.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFacingMode.gridx = 0;
-		gbc_lblFacingMode.gridy = 6;
-		panel.add(lblFacingMode, gbc_lblFacingMode);
 		
 		JPanel facingMode = new JPanel();
 		GridBagConstraints gbc_facingMode = new GridBagConstraints();
 		gbc_facingMode.insets = new Insets(0, 0, 5, 0);
 		gbc_facingMode.fill = GridBagConstraints.BOTH;
 		gbc_facingMode.gridx = 1;
-		gbc_facingMode.gridy = 6;
+		gbc_facingMode.gridy = 7;
 		panel.add(facingMode, gbc_facingMode);
 		facingMode.setLayout(new GridLayout(2, 4, 0, 0));
 		
@@ -284,6 +278,32 @@ public class Window {
 		rdbtnNegativeZ = new JRadioButton(Str.NEGATIVE_Z.getStr());
 		buttonGroup_1.add(rdbtnNegativeZ);
 		facingMode.add(rdbtnNegativeZ);
+		
+		JLabel lblProjects = new JLabel("Projects");
+		GridBagConstraints gbc_lblProjects = new GridBagConstraints();
+		gbc_lblProjects.gridwidth = 2;
+		gbc_lblProjects.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProjects.gridx = 0;
+		gbc_lblProjects.gridy = 9;
+		panel.add(lblProjects, gbc_lblProjects);
+		
+		JPanel projects = new JPanel();
+		GridBagConstraints gbc_projects = new GridBagConstraints();
+		gbc_projects.gridwidth = 2;
+		gbc_projects.fill = GridBagConstraints.BOTH;
+		gbc_projects.gridx = 0;
+		gbc_projects.gridy = 10;
+		panel.add(projects, gbc_projects);
+		
+		JButton btnSaveSettings = new JButton(Str.SAVE_SETTINGS.getStr());
+		btnSaveSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		projects.add(btnSaveSettings);
+		
+		JButton btnLoadSettings = new JButton(Str.LOAD_SETTINGS.getStr());
+		projects.add(btnLoadSettings);
 
 		srcpath = new JTextField();
 		srcpath.setBounds(57, 11, 432, 22);
@@ -316,8 +336,6 @@ public class Window {
 
 		genpack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Main.pname=pnameField.getText();
-				Main.pdescription=dtrpnPackagedescription.getText();
 				genpack.setEnabled(false);
 				new Thread(r).start();
 			}
@@ -420,5 +438,11 @@ public class Window {
 	}
 	public static JRadioButton getRdbtnPositiveX() {
 		return rdbtnPositiveX;
+	}
+	protected JEditorPane getDtrpnPackagedescription() {
+		return dtrpnPackagedescription;
+	}
+	protected JTextField getPnameField() {
+		return pnameField;
 	}
 }
