@@ -4,3 +4,4 @@ bin/
 water/
 .settings/
 *.jar
+/.gradle/
