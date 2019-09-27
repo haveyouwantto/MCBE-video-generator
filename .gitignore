@@ -5,3 +5,4 @@ water/
 .settings/
 *.jar
 /.gradle/
+*.mp4/

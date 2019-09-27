@@ -54,7 +54,6 @@ public class Window {
 	private static JRadioButton rdbtnNegativeZ;
 	private static JRadioButton rdbtnPositiveX;
 	protected static JEditorPane dtrpnPackagedescription;
-	protected static Project windowproj;
 	private static JRadioButton rdbtnStatic;
 	private static Converter c=new Converter();
 
@@ -65,7 +64,7 @@ public class Window {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Window window = new Window();
+					new Window();
 					Window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -88,7 +87,8 @@ public class Window {
 		Runnable r = new Runnable(){
 			public void run() {
 				try {
-					Main.genPack(windowproj);
+					Project p=WindowArgumentParser.parse();
+					Main.genPack(p);
 				} catch (IOException e) {
 					showError(e.toString());
 					setEnable();
@@ -314,8 +314,8 @@ public class Window {
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					output = new File(filechooser.getSelectedFile().getAbsolutePath()+".json"); //$NON-NLS-1$
-					windowproj=WindowArgumentParser.parse();
-					ProjectSaver.save(windowproj, output);
+					Project p=WindowArgumentParser.parse();
+					ProjectSaver.save(p, output);
 				}
 			}
 		});
@@ -337,12 +337,12 @@ public class Window {
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					try {
-						windowproj=ProjectSaver.load(filechooser.getSelectedFile());
+						Project p=ProjectSaver.load(filechooser.getSelectedFile());
+						WindowArgumentParser.update(p);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					WindowArgumentParser.update(windowproj);
 				}
 				
 			}
@@ -372,7 +372,6 @@ public class Window {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					dir = fc.getSelectedFile();
 					srcpath.setText(dir.getPath());
-					windowproj.setSource(dir);
 					Main.loadFolder(dir);
 				}
 			}

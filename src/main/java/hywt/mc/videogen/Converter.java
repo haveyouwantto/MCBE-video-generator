@@ -1,8 +1,5 @@
 package hywt.mc.videogen;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -23,12 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JComboBox;
@@ -36,6 +28,10 @@ import javax.swing.DefaultComboBoxModel;
 
 public class Converter extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	protected boolean ffmpegSelected;
 	protected File ffmpegFile;
@@ -198,7 +194,7 @@ public class Converter extends JFrame {
 		outputSettings.add(panel_2, gbc_panel_2);
 
 		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] { "rgb24", "pal8", "monob" })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] { "rgb24","pal8", "gray","monob" })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		panel_2.add(comboBox);
 
 		JButton btnConvert = new JButton(Messages.getString("Converter.btnConvert.text")); //$NON-NLS-1$
@@ -218,6 +214,10 @@ public class Converter extends JFrame {
 						command.add("20"); //$NON-NLS-1$
 						command.add("-pix_fmt"); //$NON-NLS-1$
 						command.add(comboBox.getSelectedItem().toString());
+						command.add("-sws_flags");
+						command.add("neighbor");
+						command.add("-sws_dither");
+						command.add("a_dither");
 						command.add("./" + videoFile.getName() + "/img%06d.png"); //$NON-NLS-1$ //$NON-NLS-2$
 						command.add("-vn"); //$NON-NLS-1$
 						command.add("./" + videoFile.getName() + "/audio.ogg"); //$NON-NLS-1$ //$NON-NLS-2$

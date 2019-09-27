@@ -37,7 +37,6 @@ public class WindowArgumentParser extends Window{
 	}
 	
 	public static void update(Project p) {
-		windowproj=p;
 		pnameField.setText(p.getPname());
 		dtrpnPackagedescription.setText(p.getPdescription());
 		
